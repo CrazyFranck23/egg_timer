@@ -13,54 +13,36 @@ print("""Quelle programme de cuisson desirez-vous effectuer ?
     2) Oeufs mollets : 6 minutes
     3) Oeufs durs : 9 minutes""")
 
-choice_str = 0
-while choice_str == 0:
-    choice_str = input("Votre choix : ")
-    try:
-        choice_int = int(choice_str)
-        if choice_int < 1 or choice_int > 3:
-            print("Vous devez choisir entre 1 et 3.")
-            choice_str = 0
-    except ValueError:
-        print("ERREUR ! Vous devez entrer un nombre.")
-        choice_str = 0
+# Boucle pour verifier la saisie utilisateur
+while True:
+    choice_string = input("Votre choix : ")
+    if choice_string == "1" or choice_string == "2" or choice_string == "3":
+        break
+    print("ERREUR: Vous devez choisir 1, 2 ou 3\n")
 
-if choice_int == 1:
-    # duration est en seconde
-    duration = 180
-    minutes = duration // 60
-    secondes = duration - (minutes * 60)
-    print(f"Cuisson de {minutes:02d}:{secondes:02d} en cours", end="")
-    # print(f"{secondes:02d}")
+duration = 0  # Dans les if ici, j'ai laisser le choix en chaine de caractere
+if choice_string == "1":
+    duration = 3 * 60  # Conversion de 3 minutes en secondes
+if choice_string == "2":
+    duration = 6 * 60
+if choice_string == "3":
+    duration = 9 * 60
 
-    # print("Cuisson de 3 minutes en cours", end="")
-    for i in range(2):
-        time.sleep(1)
-        print(".", end="", flush=True)
+# Création de la boucle qui affichera les points
+while True:
+    for i in range(10):
+        time.sleep(1)  # Chaque 1 sec, afficher un point "." Le end="" enleve le retour a la ligne
+        print(".", end="", flush=True)  # Le flush=True c'est pour forcer l'affichage des points sur la meme ligne
+        duration -= 1
+        if duration <= 0:
+            break  # On sort de la boucle for ...
 
-minutes = minutes - 1
-secondes = secondes + 50
+    if duration <= 0:
+        break  # On sort de la boucle pour ne pas afficher temps restant = 00:00 et aussi pour pas avoir de tempsNegatif
+    minutes = duration // 60  # Le double '//' c'est pour avoir une division entière et non un nombre a virgule
+    secondes = duration - (minutes * 60)  # Pour avoir le nombre de sécondes
+    print()
+    print(f"Temps restant : {minutes:02d}:{secondes:02d}", end="", flush=True)
 
-print()
-print(f"Duree restante : {minutes:02d}:{secondes:02d}")
-for i in range(2):
-    time.sleep(1)
-    print(".", end="", flush=True)
-
-
-# Duree restant : 02:50
-"""
-for i in range(5):
-    time.sleep(1)
-    print(".", end="", flush=True)
-
-print()
-print("Fin de la cuisson")
+print("\nCuisson terminée")
 beepy.beep(sound="ping")
-
-# duration est en seconde
-duration = 100
-minutes = duration // 60
-secondes = duration - (minutes*60)
-print(f"{minutes:02d}")
-print(secondes) """
